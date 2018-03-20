@@ -1,6 +1,5 @@
 
-
-img.small {
-  width: 25%;
-  margin: 1em;
+.img small {
+  width: 20px;
+  margin: 5px;
 }
