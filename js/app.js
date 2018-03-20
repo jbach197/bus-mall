@@ -46,33 +46,35 @@ new Products('usb', 'img/usb.gif');
 new Products('watering can', 'img/water-can.jpg');
 new Products('wine glass', 'img/wine-glass.jpg');
 
+//Randomly display pictures of products
+var randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
+var randomNumberTwo = Math.floor(Math.random() * Products.allProducts.length);
+var randomNumberThree = Math.floor(Math.random() * Products.allProducts.length);
 
+//Check for dups, rerun the numbers if dups are found.
+while(randomNumberOne === randomNumberTwo || randomNumberTwo === randomNumberThree || randomNumberOne === randomNumberThree){
 
-
-
-
-
-
-
-
-
-
-function randomProduct() {
-  var currentProduct = [];
-  var randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
-  imgElementOne.src = Products.allProducts[randomNumberOne].filepath;
-  currentProduct.push(randomNumberOne);
+//|| Products.lastDisplay.includes(randomNumberOne) || Products.lastDisplay.includes//(randomNumberTwo) || Products.lastDisplay.includes(randomNumberThree)) {
+  console.log('dup caught');
+  randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
+  randomNumberTwo = Math.floor(Math.random() * Products.allProducts.length);
+  randomNumberThree = Math.floor(Math.random() * Products.allProducts.length);
 }
+//add images to page
+imgElementOne.src = Products.allProducts[randomNumberOne].filepath;
+imgElementTwo.src = Products.allProducts[randomNumberTwo].filepath;
+imgElementThree.src = Products.allProducts[randomNumberThree].filepath;
 
-randomProduct();
+//keep track of images displayed in previous group of three
+//Products.lastDisplay = [];
+//Products.lastDisplay[0] = (randomNumberOne);
+//Products.lastDisplay[1] = (randomNumberTwo);
+//Products.lastDisplay[2] = (randomNumberThree);
 
-
-
-
-
-
-
-
+//Increment counters for products that were displayed
+Products.allProducts[randomNumberOne].displayCount++;
+Products.allProducts[randomNumberTwo].displayCount++;
+Products.allProducts[randomNumberThree].displayCount++;
 
 
 //imgElementOne.addEventListener('click', randomProduct);
@@ -87,35 +89,6 @@ randomProduct();
 //Set up array to house all the products
 var allProducts = [];
 
-//Create object constructor to create product instances
-function Products(filepath, name) {
-  this.filepath = filepath;
-  this.numberCalled = 0;
-  this.numberClicked = 0;
-  allProducts.push(this);
-}
-
-//Use constructor to add instances of products.
-new Products('img/bag.jpg');
-new Products('img/banana.jpg');
-new Products('img/bathroom.jpg');
-new Products('img/boots.jpg');
-new Products('img/breakfast.jpg');
-new Products('img/bubblegum.jpg');
-new Products('img/chair.jpg');
-new Products('img/cthulhu.jpg');
-new Products('img/dog-duck.jpg');
-new Products('img/dragon.jpg');
-new Products('img/pen.jpg');
-new Products('img/pet-sweep.jpg');
-new Products('img/scissors.jpg');
-new Products('img/shark.jpg');
-new Products('img/sweep.png');
-new Products('img/tauntaun.jpg');
-new Products('img/unicorn.jpg');
-new Products('img/usb.gif');
-new Products('img/water-can.jpg');
-new Products('img/wine-glass.jpg');
 
 
 //Add the event listener
