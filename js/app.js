@@ -13,14 +13,15 @@ var imgElementOne = document.getElementById('product-pic-one');
 var imgElementTwo = document.getElementById('product-pic-two');
 var imgElementThree = document.getElementById('product-pic-three');
 
-var sectionElement = document.getElementById('product-selection');
+var sectionElement = document.getElementById('product-section');
+var unorderedListElement = document.getElementById('results');
 
 //Create constructor for Products
 function Products(name, filepath){
   this.name = name;
   this.filepath = filepath;
   this.displayCount = 0;
-  this.productVotes = 0;
+  this.vote = 0;
   Products.allProducts.push(this);
   productNames.push(this.name);
 }
@@ -47,85 +48,76 @@ new Products('watering can', 'img/water-can.jpg');
 new Products('wine glass', 'img/wine-glass.jpg');
 
 //Randomly display pictures of products
-var randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
-var randomNumberTwo = Math.floor(Math.random() * Products.allProducts.length);
-var randomNumberThree = Math.floor(Math.random() * Products.allProducts.length);
-
-//Check for dups, rerun the numbers if dups are found.
-while(randomNumberOne === randomNumberTwo || randomNumberTwo === randomNumberThree || randomNumberOne === randomNumberThree){
-
-//|| Products.lastDisplay.includes(randomNumberOne) || Products.lastDisplay.includes//(randomNumberTwo) || Products.lastDisplay.includes(randomNumberThree)) {
-  console.log('dup caught');
-  randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
-  randomNumberTwo = Math.floor(Math.random() * Products.allProducts.length);
-  randomNumberThree = Math.floor(Math.random() * Products.allProducts.length);
-}
-//add images to page
-imgElementOne.src = Products.allProducts[randomNumberOne].filepath;
-imgElementTwo.src = Products.allProducts[randomNumberTwo].filepath;
-imgElementThree.src = Products.allProducts[randomNumberThree].filepath;
-
-//keep track of images displayed in previous group of three
-//Products.lastDisplay = [];
-//Products.lastDisplay[0] = (randomNumberOne);
-//Products.lastDisplay[1] = (randomNumberTwo);
-//Products.lastDisplay[2] = (randomNumberThree);
-
-//Increment counters for products that were displayed
-Products.allProducts[randomNumberOne].displayCount++;
-Products.allProducts[randomNumberTwo].displayCount++;
-Products.allProducts[randomNumberThree].displayCount++;
-
-
-//imgElementOne.addEventListener('click', randomProduct);
-
-
-
-
-
-
-
-/*
-//Set up array to house all the products
-var allProducts = [];
-
-
-
-//Add the event listener
-var imgElementOne = document.getElementById('product-pic-one');
-imgElementOne.addEventListener('click', randomProduct);
-
-var imgElementTwo = document.getElementById('product-pic-two');
-imgElementTwo.addEventListener('click', randomProduct);
-
-var imgElementThree = document.getElementById('product-pic-three');
-imgElementThree.addEventListener('click', randomProduct);
-
 function randomProduct() {
-  var currentProduct = [];
-  var randomNumberOne = Math.floor(Math.random() * allProducts.length);
-  imgElementOne.src = allProducts[randomNumberOne].filepath;
-  currentProduct.push(randomNumberOne);
+  var randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
+  var randomNumberTwo = Math.floor(Math.random() * Products.allProducts.length);
+  var randomNumberThree = Math.floor(Math.random() * Products.allProducts.length);
 
-  var randomNumberTwo = Math.floor(Math.random() * allProducts.length);
-  if (randomNumberTwo === randomNumberOne){
-    randomNumberTwo = Math.floor(Math.random() * allProducts.length);
-  } else {
-    imgElementTwo.src = allProducts[randomNumberTwo].filepath;
-    currentProduct.push(randomNumberTwo);
+  //Check for dups, rerun the numbers if dups are found.
+  while(randomNumberOne === randomNumberTwo || randomNumberTwo === randomNumberThree || randomNumberOne === randomNumberThree || Products.display.includes(randomNumberOne) || Products.display.includes(randomNumberTwo) || Products.display.includes(randomNumberThree)){
+
+    console.log('dup caught');
+    randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
+    randomNumberTwo = Math.floor(Math.random() * Products.allProducts.length);
+    randomNumberThree = Math.floor(Math.random() * Products.allProducts.length);
   }
+  //add images to page
+  imgElementOne.src = Products.allProducts[randomNumberOne].filepath;
+  imgElementOne.alt = Products.allProducts[randomNumberOne].name;
 
-  var randomNumberThree = Math.floor(Math.random() * allProducts.length);
-  if(randomNumberThree === randomNumberOne) {
-    randomNumberThree = Math.floor(Math.random() * allProducts.length);
-  } else if(randomNumberThree === randomNumberTwo) {
-    randomNumberThree = Math.floor(Math.random() * allProducts.length);
+  imgElementTwo.src = Products.allProducts[randomNumberTwo].filepath;
+  imgElementTwo.alt = Products.allProducts[randomNumberTwo].name;
+
+  imgElementThree.src = Products.allProducts[randomNumberThree].filepath;
+  imgElementThree.alt = Products.allProducts[randomNumberThree].name;
+
+  //keep track of images displayed in previous group of three
+  Products.display = [];
+  Products.display[0] = randomNumberOne;
+  Products.display[1] = randomNumberTwo;
+  Products.display[2] = randomNumberThree;
+
+  //Increment counters for products that were displayed
+  Products.allProducts[randomNumberOne].displayCount++;
+  Products.allProducts[randomNumberTwo].displayCount++;
+  Products.allProducts[randomNumberThree].displayCount++;
+}
+
+sectionElement.addEventListener('click', personClick);
+
+//Function for clicking on images
+function personClick(event) {
+  Products.totalClick++;
+  console.log(event.target.alt);
+
+  //Loop through to determine which image was clicked
+  for(var i in Products.allProducts) {
+    if(event.target.alt === Products.allProducts[i].name) {
+      Products.allProducts[i].vote++;}
+  }
+  if (Products.totalClick > 25) {
+    sectionElement.removeEventListener('click', personClick);
+    showResults();
   } else {
-    imgElementThree.src = allProducts[randomNumberThree].filepath;
-    currentProduct.push(randomNumberTwo);
+    randomProduct();
   }
 }
-randomProduct();
+function updateVotes() {
+  for(var i in Products.allProducts) {
+    productVote[i] = Products.allProducts[i].vote;
+  }
+}
 
-click handler calls random product
-*/
+function showResults() {
+  for(var i in Products.allProducts) {
+    var listElement = document.createElement('li');
+
+    listElement.textContent = Products.allProducts[i].name + ' has ' + Products.allProducts[i].vote + ' votes, and was displayed ' + Products.allProducts[i].displayCount + ' times.'
+
+    unorderedListElement.appendChild(listElement);
+
+ }
+}
+
+randomProduct();
+updateVotes();
