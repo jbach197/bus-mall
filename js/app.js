@@ -25,27 +25,39 @@ function Products(name, filepath){
   Products.allProducts.push(this);
   productNames.push(this.name);
 }
-//Add instances of products.
-new Products('suitcase', 'img/bag.jpg');
-new Products('banana slicer', 'img/banana.jpg');
-new Products('iPad toiletpaper stand', 'img/bathroom.jpg');
-new Products('rain boots', 'img/boots.jpg');
-new Products('breakfast appliance', 'img/breakfast.jpg');
-new Products('meatball gum', 'img/bubblegum.jpg');
-new Products('chai', 'img/chair.jpg');
-new Products('cthulhu', 'img/cthulhu.jpg');
-new Products('duck beak for dog', 'img/dog-duck.jpg');
-new Products('dragon meat', 'img/dragon.jpg');
-new Products('silverware pen', 'img/pen.jpg');
-new Products('sweeper for pet feet', 'img/pet-sweep.jpg');
-new Products('pizza sissors', 'img/scissors.jpg');
-new Products('shark sleeping bag', 'img/shark.jpg');
-new Products('baby sweeper','img/sweep.png');
-new Products('tauntaun sleeping bag', 'img/tauntaun.jpg');
-new Products('unicorn meat', 'img/unicorn.jpg');
-new Products('usb', 'img/usb.gif');
-new Products('watering can', 'img/water-can.jpg');
-new Products('wine glass', 'img/wine-glass.jpg');
+/*
+function setUpProducts() {
+  var prodAsString = localStorage.getItem('products');
+  var productsToUse = JSON.parse(prodAsString);
+  if (productsToUse && productsToUse.Length) {
+    Products.allProducts = productsToUse;
+    console.log('Loaded from storage');
+    return;
+  }
+  console.log('Not from storage');
+*/
+  //Add instances of products.
+  new Products('suitcase', 'img/bag.jpg');
+  new Products('banana slicer', 'img/banana.jpg');
+  new Products('iPad toiletpaper stand', 'img/bathroom.jpg');
+  new Products('rain boots', 'img/boots.jpg');
+  new Products('breakfast appliance', 'img/breakfast.jpg');
+  new Products('meatball gum', 'img/bubblegum.jpg');
+  new Products('chai', 'img/chair.jpg');
+  new Products('cthulhu', 'img/cthulhu.jpg');
+  new Products('duck beak for dog', 'img/dog-duck.jpg');
+  new Products('dragon meat', 'img/dragon.jpg');
+  new Products('silverware pen', 'img/pen.jpg');
+  new Products('sweeper for pet feet', 'img/pet-sweep.jpg');
+  new Products('pizza sissors', 'img/scissors.jpg');
+  new Products('shark sleeping bag', 'img/shark.jpg');
+  new Products('baby sweeper','img/sweep.png');
+  new Products('tauntaun sleeping bag', 'img/tauntaun.jpg');
+  new Products('unicorn meat', 'img/unicorn.jpg');
+  new Products('usb', 'img/usb.gif');
+  new Products('watering can', 'img/water-can.jpg');
+  new Products('wine glass', 'img/wine-glass.jpg');
+}
 
 //Randomly display pictures of products
 function randomProduct() {
@@ -95,34 +107,28 @@ function personClick(event) {
     if(event.target.alt === Products.allProducts[i].name) {
       Products.allProducts[i].vote++;}
   }
-  if (Products.totalClick > 25) {
+  if (Products.totalClick > 4) {
     sectionElement.removeEventListener('click', personClick);
-    //  showResults();
+    updateVotes();
     renderChart();
+    toStorage();
   } else {
     randomProduct();
   }
 }
 function updateVotes() {
   for(var i in Products.allProducts) {
-    productVote.push(Products.allProducts.vote);
-    console.log(productVote);
+    productVote[i] = Products.allProducts[i];
   }
 }
-/*
-function showResults() {
-  for(var i in Products.allProducts) {
-    var listElement = document.createElement('li');
 
-    listElement.textContent = Products.allProducts[i].name + ' has ' + Products.allProducts[i].vote + ' votes, and was displayed ' + Products.allProducts[i].displayCount + ' times.';
-
-    unorderedListElement.appendChild(listElement);
-
- }
-}
-*/
 randomProduct();
-updateVotes();
+
+//Send info to storage
+function toStorage() {
+ var saveProducts = JSON.stringify(Products.allProducts);
+ localStorage.setItem('products', saveProducts);
+}
 
 //Add the chart with js charts
 function renderChart() {
