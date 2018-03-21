@@ -7,6 +7,7 @@ Products.totalClick = 0;
 
 var productNames = [];
 var productVote = [];
+var arrayOfColors = ['#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF'];
 
 //Access items from the DOM for each of the three image locations
 var imgElementOne = document.getElementById('product-pic-one');
@@ -95,7 +96,7 @@ function personClick(event) {
     if(event.target.alt === Products.allProducts[i].name) {
       Products.allProducts[i].vote++;}
   }
-  if (Products.totalClick > 25) {
+  if (Products.totalClick > 4) {
     sectionElement.removeEventListener('click', personClick);
     //  showResults();
     renderChart();

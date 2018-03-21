@@ -1,7 +1,26 @@
+body {
+  background-color: #EBEBF2;
+  width: 90%;
+}
+
 img {
-  width: 200px
+  align: center;
+  border: 4px groove #A5A5AF;
+  margin: .5em;
+  width: 225px;
 }
 
 h1 {
+  color: #015249;
+  font-family: 'Oswald', sans-serif;
   font-size: 2em;
+}
+
+h2 {
+  color: #77C9D4;
+  font-size: 1.5em;
+}
+
+p {
+  font-size: 1em;
 }
