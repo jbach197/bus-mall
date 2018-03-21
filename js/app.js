@@ -25,17 +25,17 @@ function Products(name, filepath){
   Products.allProducts.push(this);
   productNames.push(this.name);
 }
-/*
+
 function setUpProducts() {
-  var prodAsString = localStorage.getItem('products');
-  var productsToUse = JSON.parse(prodAsString);
-  if (productsToUse && productsToUse.Length) {
-    Products.allProducts = productsToUse;
+  var localProducts = localStorage.getItem('products');
+  var localProductsString = JSON.parse(localProducts);
+  if (localProductsString && localProductsString.Length) {
+    Products.allProducts = localProductsString;
     console.log('Loaded from storage');
     return;
   }
   console.log('Not from storage');
-*/
+
   //Add instances of products.
   new Products('suitcase', 'img/bag.jpg');
   new Products('banana slicer', 'img/banana.jpg');
@@ -58,7 +58,7 @@ function setUpProducts() {
   new Products('watering can', 'img/water-can.jpg');
   new Products('wine glass', 'img/wine-glass.jpg');
 }
-
+setUpProducts();
 //Randomly display pictures of products
 function randomProduct() {
   var randomNumberOne = Math.floor(Math.random() * Products.allProducts.length);
