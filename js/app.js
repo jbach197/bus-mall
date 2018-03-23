@@ -7,7 +7,6 @@ Products.totalClick = 0;
 
 var productNames = [];
 var productVote = [];
-var arrayOfColors = ['#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF', '#015249', '#578C90', '#77C9D4', '#A5A5AF'];
 
 //Access items from the DOM for each of the three image locations
 var imgElementOne = document.getElementById('product-pic-one');
@@ -15,7 +14,6 @@ var imgElementTwo = document.getElementById('product-pic-two');
 var imgElementThree = document.getElementById('product-pic-three');
 
 var sectionElement = document.getElementById('product-section');
-//var unorderedListElement = document.getElementById('results');
 
 //Create constructor for Products
 function Products(name, filepath){
@@ -96,6 +94,7 @@ function personClick(event) {
     if(event.target.alt === Products.allProducts[i].name) {
       Products.allProducts[i].vote++;}
   }
+
   if (Products.totalClick > 4) {
     sectionElement.removeEventListener('click', personClick);
     //  showResults();
@@ -105,23 +104,16 @@ function personClick(event) {
   }
 }
 function updateVotes() {
-  for(var i in Products.allProducts) {
+  for(var i in Products.allProducts); 
     productVote.push(Products.allProducts.vote);
     console.log(productVote);
   }
 }
 /*
-function showResults() {
-  for(var i in Products.allProducts) {
-    var listElement = document.createElement('li');
-
-    listElement.textContent = Products.allProducts[i].name + ' has ' + Products.allProducts[i].vote + ' votes, and was displayed ' + Products.allProducts[i].displayCount + ' times.';
-
-    unorderedListElement.appendChild(listElement);
-
- }
+    productVote[i] = Products.allProducts[i].vote;
+  }
 }
-*/
+
 randomProduct();
 updateVotes();
 
@@ -152,3 +144,4 @@ function renderChart() {
     }
   });
 }
+
