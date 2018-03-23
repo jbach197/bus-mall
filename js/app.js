@@ -1,12 +1,12 @@
 'use-strict';
 
 //Set up variables to be used later
-Products.allProducts = [];  //array for products
-Products.display = [];  //array to keep track of products as they are displayed
-Products.totalClick = 0;  //counter to keep track of clicks
+Products.allProducts = [];
+Products.display = [];
+Products.totalClick = 0;
 
-var productNames = [];  //array to house product names
-var productVote = 0;  //counter to keep track of votes for specific product
+var productNames = [];
+var productVote = [];
 
 //Access items from the DOM for each of the three image locations
 var imgElementOne = document.getElementById('product-pic-one');
@@ -14,7 +14,6 @@ var imgElementTwo = document.getElementById('product-pic-two');
 var imgElementThree = document.getElementById('product-pic-three');
 
 var sectionElement = document.getElementById('product-section');
-var unorderedListElement = document.getElementById('results');
 
 //Create constructor for Products
 function Products(name, filepath){
@@ -95,29 +94,54 @@ function personClick(event) {
     if(event.target.alt === Products.allProducts[i].name) {
       Products.allProducts[i].vote++;}
   }
-  if (Products.totalClick > 25) {
+
+  if (Products.totalClick > 4) {
     sectionElement.removeEventListener('click', personClick);
-    showResults();
+    //  showResults();
+    renderChart();
   } else {
     randomProduct();
   }
 }
 function updateVotes() {
-  for(var i in Products.allProducts) {
+  for(var i in Products.allProducts); 
+    productVote.push(Products.allProducts.vote);
+    console.log(productVote);
+  }
+}
+/*
     productVote[i] = Products.allProducts[i].vote;
   }
 }
 
-function showResults() {
-  for(var i in Products.allProducts) {
-    var listElement = document.createElement('li');
-
-    listElement.textContent = Products.allProducts[i].name + ' has ' + Products.allProducts[i].vote + ' votes, and was displayed ' + Products.allProducts[i].displayCount + ' times.'
-
-    unorderedListElement.appendChild(listElement);
-
- }
-}
-
 randomProduct();
 updateVotes();
+
+//Add the chart with js charts
+function renderChart() {
+  var context = document.getElementById('product-chart').getContext('2d');
+
+  var arrayOfColors = ['red', 'orange', 'yellow','green', 'blue', 'red', 'orange', 'yellow','green', 'blue', 'red', 'orange', 'yellow','green', 'blue', 'red', 'orange', 'yellow','green', 'blue', 'red', 'orange', 'yellow','green', 'blue',];
+
+  new Chart(context, {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: 'Votes per Item',
+        data: productVote,
+        backgroundColor: arrayOfColors,
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
+
