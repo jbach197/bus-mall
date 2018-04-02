@@ -14,8 +14,6 @@ var imgElementTwo = document.getElementById('product-pic-two');
 var imgElementThree = document.getElementById('product-pic-three');
 
 var sectionElement = document.getElementById('product-section');
-//var unorderedListElement = document.getElementById('results');
-
 //Create constructor for Products
 function Products(name, filepath){
   this.name = name;
@@ -27,15 +25,15 @@ function Products(name, filepath){
 }
 
 function setUpProducts() {
-  var localProducts = localStorage.getItem('products');
-  var localProductsString = JSON.parse(localProducts);
-  if (localProductsString && localProductsString.Length) {
-    Products.allProducts = localProductsString;
-    console.log('Loaded from storage');
+  var localProductsString = localStorage.getItem('products');
+  console.log(localProductsString);
+  var productsToUse = JSON.parse(localProductsString);
+  console.log(productsToUse);
+  if (productsToUse && productsToUse.length){
+    Products.allProducts = productsToUse;
+    console.log('Loaded from Local Storage');
     return;
   }
-  console.log('Not from storage');
-
   //Add instances of products.
   new Products('suitcase', 'img/bag.jpg');
   new Products('banana slicer', 'img/banana.jpg');
@@ -43,7 +41,7 @@ function setUpProducts() {
   new Products('rain boots', 'img/boots.jpg');
   new Products('breakfast appliance', 'img/breakfast.jpg');
   new Products('meatball gum', 'img/bubblegum.jpg');
-  new Products('chai', 'img/chair.jpg');
+  new Products('chair', 'img/chair.jpg');
   new Products('cthulhu', 'img/cthulhu.jpg');
   new Products('duck beak for dog', 'img/dog-duck.jpg');
   new Products('dragon meat', 'img/dragon.jpg');
@@ -83,6 +81,7 @@ function randomProduct() {
   imgElementThree.src = Products.allProducts[randomNumberThree].filepath;
   imgElementThree.alt = Products.allProducts[randomNumberThree].name;
 
+
   //keep track of images displayed in previous group of three
   Products.display = [];
   Products.display[0] = randomNumberOne;
@@ -107,7 +106,7 @@ function personClick(event) {
     if(event.target.alt === Products.allProducts[i].name) {
       Products.allProducts[i].vote++;}
   }
-  if (Products.totalClick > 4) {
+  if (Products.totalClick > 24) {
     sectionElement.removeEventListener('click', personClick);
     updateVotes();
     renderChart();
@@ -117,8 +116,8 @@ function personClick(event) {
   }
 }
 function updateVotes() {
-  for(var i in Products.allProducts) {
-    productVote[i] = Products.allProducts[i];
+  for(var i in Products.allProducts) {   
+  productVote[i] = Products.allProducts[i];
   }
 }
 
@@ -126,8 +125,8 @@ randomProduct();
 
 //Send info to storage
 function toStorage() {
- var saveProducts = JSON.stringify(Products.allProducts);
- localStorage.setItem('products', saveProducts);
+  var saveProducts = JSON.stringify(Products.allProducts);
+  localStorage.setItem('products', saveProducts);
 }
 
 //Add the chart with js charts
